@@ -1,0 +1,8 @@
+<p>{{ headerDatas.title }}</p>
+
+@for (stat of headerDatas.stats; track $index) {
+    <div class="header-stat">
+        <p>{{ stat.label }}</p>
+        <p>{{ stat.value }}</p>
+    </div>
+}

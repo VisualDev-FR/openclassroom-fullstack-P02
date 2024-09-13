@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OlympicCountry } from 'src/app/core/models/Olympic';
+import { ChartData } from 'src/app/core/models/ChartData';
+import { HeaderDatas } from 'src/app/core/models/HeaderDatas';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 
@@ -11,9 +12,9 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 export class DetailComponent implements OnInit {
 
-    olympicCountry!: OlympicCountry | undefined;
+    chartDatas!: { name: string, series: ChartData[] }[];
+    headerDatas!: HeaderDatas;
 
-    multi: any;
     view: [number, number] = [700, 300];
     legend: boolean = true;
     showLabels: boolean = true;
@@ -46,26 +47,44 @@ export class DetailComponent implements OnInit {
             this.olympicService
                 .getOlympics()
                 .subscribe(countries => {
-                    this.olympicCountry = countries.find(country => country.country == countryName)
 
-                    if (!this.olympicCountry) {
+                    let olympicCountry = countries.find(country => country.country == countryName)!
+                    let participations = olympicCountry.participations;
+
+                    if (!olympicCountry) {
                         this.redirectNotFound();
                         return;
                     }
 
-                    this.multi = [
+                    this.chartDatas = [
                         {
                             name: "MedalsCount",
-                            series: this.olympicCountry.participations.map(p => ({ name: p.year, value: p.medalsCount }))
+                            series: participations.map(p => ({ name: p.year.toString(), value: p.medalsCount }))
                         },
                         {
                             name: "AthleteCount",
-                            series: this.olympicCountry.participations.map(p => ({ name: p.year, value: p.athleteCount }))
+                            series: participations.map(p => ({ name: p.year.toString(), value: p.athleteCount }))
                         }
                     ]
-                });
 
-            console.log(this.olympicCountry);
+                    this.headerDatas = {
+                        title: olympicCountry.country,
+                        stats: [
+                            {
+                                label: "Number of entries",
+                                value: participations.length
+                            },
+                            {
+                                label: "Total number medals",
+                                value: participations.reduce((sum, country) => sum + country.medalsCount, 0)
+                            },
+                            {
+                                label: "Total number of athletes",
+                                value: participations.reduce((sum, country) => sum + country.athleteCount, 0)
+                            },
+                        ]
+                    }
+                });
         });
     }
 

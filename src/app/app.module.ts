@@ -7,6 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DetailComponent } from './pages/detail/detail.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import { DetailComponent } from './pages/detail/detail.component';
         HomeComponent,
         NotFoundComponent,
         DetailComponent,
+        HeaderComponent,
     ],
     imports: [
         BrowserModule,
