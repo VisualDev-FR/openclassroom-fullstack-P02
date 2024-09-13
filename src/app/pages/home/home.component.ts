@@ -11,7 +11,7 @@ import { OlympicCountry } from 'src/app/core/models/Olympic';
 })
 export class HomeComponent implements OnInit {
 
-    public olympics$!: Observable<OlympicCountry[] | undefined>; // = of(null) -> ?
+    public olympics$!: Observable<OlympicCountry[] | null>; // = of(null) -> ?
 
     constructor(private olympicService: OlympicService) { }
 

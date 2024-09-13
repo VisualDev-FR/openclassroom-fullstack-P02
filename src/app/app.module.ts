@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardChartComponent } from './pages/dashboard-chart/dashboard-chart.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, HomeComponent, NotFoundComponent, DashboardChartComponent],
+    imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgxChartsModule],
+    providers: [],
+    bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
