@@ -11,7 +11,20 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 export class DetailComponent implements OnInit {
 
-    olympicCountry!: OlympicCountry | null;
+    olympicCountry!: OlympicCountry | undefined;
+
+    multi: any;
+    view: [number, number] = [700, 300];
+    legend: boolean = true;
+    showLabels: boolean = true;
+    animations: boolean = true;
+    xAxis: boolean = true;
+    yAxis: boolean = true;
+    showYAxisLabel: boolean = true;
+    showXAxisLabel: boolean = true;
+    xAxisLabel: string = 'Year';
+    yAxisLabel: string = 'Population';
+    timeline: boolean = true;
 
     constructor(
         private route: ActivatedRoute,
@@ -25,14 +38,38 @@ export class DetailComponent implements OnInit {
 
             const countryName: string = params.get("name")!;
 
-            this.olympicCountry = this.olympicService.getOlympic(countryName);
-
-            if (!this.olympicCountry) {
-                this.router.navigate(["/**"]);
+            if (!countryName) {
+                this.redirectNotFound();
                 return;
             }
 
+            this.olympicService
+                .getOlympics()
+                .subscribe(countries => {
+                    this.olympicCountry = countries.find(country => country.country == countryName)
+
+                    if (!this.olympicCountry) {
+                        this.redirectNotFound();
+                        return;
+                    }
+
+                    this.multi = [
+                        {
+                            name: "MedalsCount",
+                            series: this.olympicCountry.participations.map(p => ({ name: p.year, value: p.medalsCount }))
+                        },
+                        {
+                            name: "AthleteCount",
+                            series: this.olympicCountry.participations.map(p => ({ name: p.year, value: p.athleteCount }))
+                        }
+                    ]
+                });
+
             console.log(this.olympicCountry);
         });
+    }
+
+    redirectNotFound() {
+        this.router.navigate(["/**"]);
     }
 }
