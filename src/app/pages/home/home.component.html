@@ -1,11 +1,6 @@
 <h2>Olympic games app</h2>
 <hr />
 
-<!-- <p>{{ (olympics$ | async)?.length }} data loaded</p>
-
-@for (item of (olympics$ | async); track $index) {
-<p>{{item.country}}</p>
-} -->
 
 <ng-container *ngIf="olympics$ | async as olympics; else loading">
     <app-dashboard-chart [olympics]="olympics"></app-dashboard-chart>

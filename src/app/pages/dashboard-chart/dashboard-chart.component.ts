@@ -1,4 +1,5 @@
 import { Component, input, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LegendPosition } from '@swimlane/ngx-charts';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 
@@ -18,19 +19,25 @@ export class DashboardChartComponent implements OnInit {
 
     @Input() olympics!: OlympicCountry[];
 
+    charDatas!: ChartData[];
     view: [number, number] = [700, 400];
     gradient: boolean = false;
     showLegend: boolean = false;
     showLabels: boolean = true;
     isDoughnut: boolean = false;
-    single!: ChartData[];
+    animation: boolean = false;
+
+    constructor(
+        private router: Router,
+    ) { }
 
     ngOnInit(): void {
 
-        this.single = this.olympics.map(country => ({ name: country.country, value: this.TotalMedals(country) }));
+        this.charDatas = this.olympics.map(country => ({ name: country.country, value: this.totalMedals(country) }));
     }
 
-    TotalMedals(country: OlympicCountry): number {
+    totalMedals(country: OlympicCountry): number {
+
         let count: number = 0;
 
         for (let participation of country.participations) {
@@ -40,15 +47,8 @@ export class DashboardChartComponent implements OnInit {
         return count;
     }
 
-    onSelect(data: any): void {
-        console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    onSelect(data: ChartData): void {
+        this.router.navigate(["/detail", data.name]);
     }
 
-    onActivate(data: any): void {
-        console.log('Activate', JSON.parse(JSON.stringify(data)));
-    }
-
-    onDeactivate(data: any): void {
-        console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-    }
 }

@@ -32,4 +32,20 @@ export class OlympicService {
     getOlympics() {
         return this.olympics$.asObservable();
     }
+
+    getOlympic(name: string): OlympicCountry | null {
+
+        let olympics = this.olympics$.getValue();
+
+        if (!olympics || !name) return null;
+
+        for (let country of olympics) {
+
+            if (country.country.toLowerCase() === name.toLowerCase()) {
+                return country;
+            }
+        }
+
+        return null;
+    }
 }
