@@ -1,4 +1,4 @@
-<app-header [headerDatas]="headerDatas"></app-header>
+<app-header *ngIf="headerDatas" [headerDatas]="headerDatas"></app-header>
 
 <div class="chart">
     <ngx-charts-pie-chart

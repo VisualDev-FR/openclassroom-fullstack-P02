@@ -53,7 +53,7 @@ export class DetailComponent implements OnInit, OnDestroy {
                 .subscribe(countries => {
 
                     let olympicCountry = countries.find(country => country.country == countryName)!
-                    let participations = olympicCountry.participations;
+                    let participations = olympicCountry?.participations;
 
                     if (!olympicCountry) {
                         this.redirectNotFound();
@@ -64,10 +64,6 @@ export class DetailComponent implements OnInit, OnDestroy {
                         {
                             name: "MedalsCount",
                             series: participations.map(p => ({ name: p.year.toString(), value: p.medalsCount }))
-                        },
-                        {
-                            name: "AthleteCount",
-                            series: participations.map(p => ({ name: p.year.toString(), value: p.athleteCount }))
                         }
                     ]
 
