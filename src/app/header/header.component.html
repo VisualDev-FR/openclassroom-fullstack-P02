@@ -1,8 +1,10 @@
-<p>{{ headerDatas.title }}</p>
+<h1>{{ headerDatas.title }}</h1>
 
-@for (stat of headerDatas.stats; track $index) {
+<div class="stats">
+    @for (stat of headerDatas.stats; track $index) {
     <div class="header-stat">
-        <p>{{ stat.label }}</p>
-        <p>{{ stat.value }}</p>
+        <p class="label">{{ stat.label }}</p>
+        <p class="value">{{ stat.value }}</p>
     </div>
-}
+    }
+</div>

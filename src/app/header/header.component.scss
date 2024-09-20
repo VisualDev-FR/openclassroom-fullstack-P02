@@ -1,0 +1,41 @@
+:host{
+    margin: 0;
+}
+
+h1 {
+    border-radius: 10px;
+    padding: 10px;
+    width: max-content;
+    text-align: center;
+    margin: 20px auto;
+    color: aliceblue;
+    background-color: var(--widget-color);
+    font-weight: normal;
+}
+
+.stats {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .header-stat {
+        border: 2px solid var(--widget-color);
+        text-align: center;
+        padding: 0;
+        border-radius: 10px;
+
+        p {
+            margin: 10px;
+        }
+
+        .label {
+            color: #888;
+        }
+
+        .value {
+            font-weight: bold;
+        }
+    }
+}

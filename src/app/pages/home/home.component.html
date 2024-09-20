@@ -1,13 +1,13 @@
 <app-header [headerDatas]="headerDatas"></app-header>
 
-<ngx-charts-pie-chart
-[view]="view"
-[results]="charDatas"
-[gradient]="gradient"
-[legend]="showLegend"
-[labels]="showLabels"
-[doughnut]="isDoughnut"
-[animations]="animation"
-(select)="onSelect($event)"
->
-</ngx-charts-pie-chart>
+<div class="chart">
+    <ngx-charts-pie-chart
+        [results]="charDatas"
+        [gradient]="gradient"
+        [legend]="showLegend"
+        [labels]="showLabels"
+        [doughnut]="isDoughnut"
+        [animations]="animation"
+        (select)="onSelect($event)">
+    </ngx-charts-pie-chart>
+</div>

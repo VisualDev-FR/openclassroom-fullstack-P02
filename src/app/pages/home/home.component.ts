@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     public olympicCountries!: OlympicCountry[];
 
     charDatas!: ChartData[];
-    view: [number, number] = [700, 400];
     gradient: boolean = false;
     showLegend: boolean = false;
     showLabels: boolean = true;
