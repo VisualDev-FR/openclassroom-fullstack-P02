@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ChartData } from 'src/app/core/models/ChartData';
 import { HeaderDatas } from 'src/app/core/models/HeaderDatas';
@@ -38,27 +38,27 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
 
-        let olympicSub!: Subscription;
-        let paramSub = this.route.paramMap.subscribe(params => {
+        let countryName: string | null = null;
+        this.route.paramMap.subscribe((param: ParamMap) => countryName = param.get('name'));
 
-            const countryName: string = params.get("name")!;
+        if (!countryName) {
+            this.redirectNotFound();
+            return;
+        }
 
-            if (!countryName) {
-                this.redirectNotFound();
-                return;
-            }
-
-            olympicSub = this.olympicService
+        this.subscription.add(
+            this.olympicService
                 .getOlympics()
                 .subscribe(countries => {
 
                     let olympicCountry = countries.find(country => country.country == countryName)!
-                    let participations = olympicCountry?.participations;
 
                     if (!olympicCountry) {
                         this.redirectNotFound();
                         return;
                     }
+
+                    let participations = olympicCountry.participations;
 
                     this.chartDatas = [
                         {
@@ -84,11 +84,8 @@ export class DetailComponent implements OnInit, OnDestroy {
                             },
                         ]
                     }
-                });
-        });
-
-        this.subscription.add(paramSub);
-        this.subscription.add(olympicSub);
+                })
+        );
     }
 
     ngOnDestroy(): void {
