@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { OlympicCountry } from 'src/app/core/models/Olympic';
 import { ChartData } from 'src/app/core/models/ChartData';
 import { HeaderDatas } from 'src/app/core/models/HeaderDatas';
-import { lab } from 'd3';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,8 +14,9 @@ import { lab } from 'd3';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-    public olympicCountries!: OlympicCountry[];
+    private subscription = new Subscription();
 
+    olympicCountries!: OlympicCountry[];
     charDatas!: ChartData[];
     gradient: boolean = false;
     showLegend: boolean = false;
@@ -31,23 +31,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
-        this.olympicService.getOlympics().subscribe(countries => {
+        this.subscription.add(
+            this.olympicService.getOlympics().subscribe(countries => {
 
-            this.olympicCountries = countries;
-            this.charDatas = this.olympicCountries.map(country => ({ name: country.country, value: this.totalMedals(country) }));
+                this.olympicCountries = countries;
+                this.charDatas = this.olympicCountries.map(country => ({ name: country.country, value: this.totalMedals(country) }));
 
-            this.headerDatas = {
-                title: "Medals per Country",
-                stats: [
-                    { label: "Number of JOs", value: this.numberOfJOs(this.olympicCountries) },
-                    { label: "Number of countries", value: countries.length },
-                ]
-            }
-        });
+                this.headerDatas = {
+                    title: "Medals per Country",
+                    stats: [
+                        { label: "Number of JOs", value: this.numberOfJOs(this.olympicCountries) },
+                        { label: "Number of countries", value: countries.length },
+                    ]
+                }
+            })
+        );
     }
 
     ngOnDestroy(): void {
-        // TODO: unsubscribe from olympicService
+        this.subscription.unsubscribe();
     }
 
     numberOfJOs(countries: OlympicCountry[]): number {

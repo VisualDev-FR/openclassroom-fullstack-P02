@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { HeaderDatas } from '../core/models/HeaderDatas';
+import { HeaderDatas } from '../../core/models/HeaderDatas';
 
 
 @Component({
