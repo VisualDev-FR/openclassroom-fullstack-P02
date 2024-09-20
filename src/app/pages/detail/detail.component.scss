@@ -4,12 +4,27 @@
 }
 
 
-.home-button{
+.home-button {
     position: absolute;
-    top: 0;
-    left: 0;
-    margin-left: 20px;
+    display: inline-block;
+    line-height: 40px;
+    vertical-align: middle;
+    top: 10px;
+    left: 10px;
     font-size: 50px;
     color: var(--widget-color);
     text-decoration: none;
+    width: 50px;
+
+    svg {
+        fill: var(--widget-color);
+        transition: transform 0.5s ease;
+    }
+}
+
+.home-button:hover {
+    svg {
+        transform: scale(1.2);
+        transition: transform 0.5s ease;
+    }
 }
