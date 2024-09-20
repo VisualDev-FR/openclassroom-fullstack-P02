@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     numberOfJOs(countries: OlympicCountry[]): number {
-        return 0;
+        return countries.reduce((count, country) => count + country.participations.length, 0);
     }
 
     totalMedals(country: OlympicCountry): number {
